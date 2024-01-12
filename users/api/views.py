@@ -4,10 +4,11 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework import generics, status, views
+from rest_framework import generics, status, views, filters
 from rest_framework.response import Response
 
 from api.utils import token_login, token_logout
+from .filters import UserFilterSet
 from .permissions import user_access_permission
 
 from .serializers.general import UserSerializer, AuthTokenSerializer
@@ -66,7 +67,7 @@ class UserMixin:
 
 
 class UserListView(UserMixin, generics.ListAPIView):
-    pass
+    filterset_class = UserFilterSet
 
 
 class UserDetailView(UserMixin, generics.RetrieveAPIView):
