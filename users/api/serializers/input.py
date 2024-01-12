@@ -1,13 +1,17 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, password_validation
 from rest_framework import serializers
 
 
 class UserInputSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("id", "email", "password", "first_name", "last_name" "is_staff")
+        fields = ("id", "email", "password", "first_name", "last_name", "is_staff")
         read_only_fields = ("is_staff",)
-        extra_kwargs = {"password": {"write_only": True, "min_length": 4}}
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def validate_password(self, value):
+        password_validation.validate_password(value)
+        return value
 
     def create(self, validated_data):
         """Create a new user with encrypted password and return it"""
