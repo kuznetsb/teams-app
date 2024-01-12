@@ -19,3 +19,11 @@ class UserAdmin(ModelAdmin):
     list_display_links = ["email", "first_name", "last_name"]
     list_filter = ["is_active", "is_staff"]
     search_fields = ["id", "email", "first_name", "last_name"]
+    fields = [
+        "email",
+        "first_name",
+        "last_name",
+        "is_active",
+        "is_staff",
+        "is_superuser",
+    ]
