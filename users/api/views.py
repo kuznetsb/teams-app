@@ -8,6 +8,7 @@ from rest_framework import generics, status, views
 from rest_framework.response import Response
 
 from api.utils import token_login, token_logout
+from .permissions import user_access_permission
 
 from .serializers.general import UserSerializer, AuthTokenSerializer
 from .serializers.input import UserInputSerializer
@@ -61,7 +62,7 @@ class CreateUserView(generics.CreateAPIView):
 class UserMixin:
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
-    queryset = get_user_model().objects.all()
+    queryset = get_user_model().objects.all().order_by("id")
 
 
 class UserListView(UserMixin, generics.ListAPIView):
@@ -74,4 +75,10 @@ class UserDetailView(UserMixin, generics.RetrieveAPIView):
 
 class UserDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAdminUser]
+    queryset = get_user_model().objects.all()
+
+
+class UserUpdateView(generics.UpdateAPIView):
+    permission_classes = [user_access_permission("can_update")]
+    serializer_class = UserInputSerializer
     queryset = get_user_model().objects.all()

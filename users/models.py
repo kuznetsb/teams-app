@@ -46,6 +46,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    @property
+    def is_admin(self):
+        return self.is_superuser
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.username = self.email.split("@")[0]
