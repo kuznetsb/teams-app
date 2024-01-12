@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import generics, status, views
@@ -55,3 +56,22 @@ class TokenDestroyView(views.APIView):
 class CreateUserView(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = UserInputSerializer
+
+
+class UserMixin:
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+    queryset = get_user_model().objects.all()
+
+
+class UserListView(UserMixin, generics.ListAPIView):
+    pass
+
+
+class UserDetailView(UserMixin, generics.RetrieveAPIView):
+    pass
+
+
+class UserDeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser]
+    queryset = get_user_model().objects.all()
