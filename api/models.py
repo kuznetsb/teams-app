@@ -1,3 +1,6 @@
-from django.db import models
+from rest_framework.authtoken.models import Token
 
-# Create your models here.
+
+def get_token_model():
+    """Return model used for token authentication."""
+    return Token
