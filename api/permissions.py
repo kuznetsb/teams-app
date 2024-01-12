@@ -69,7 +69,6 @@ class ObjectAccessPolicyPermission(AccessPolicyBasePermission):
 
     base_access_policy_class = ObjectAccessPolicy
 
-    # TODO: delete
     obj_attribute: str | None = None
     view_attribute: str | None = None
 
