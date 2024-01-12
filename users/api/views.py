@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.conf import settings
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import generics, status, views
 from rest_framework.response import Response
@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from api.utils import token_login, token_logout
 
 from .serializers.general import UserSerializer, AuthTokenSerializer
+from .serializers.input import UserInputSerializer
 
 
 class CurrentUserView(generics.RetrieveAPIView):
@@ -49,3 +50,8 @@ class TokenDestroyView(views.APIView):
     def post(self, request):
         token_logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CreateUserView(generics.CreateAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = UserInputSerializer
