@@ -18,7 +18,7 @@ class Team(models.Model):
     )
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name="+",
+        related_name="teams",
         through="TeamMember",
         blank=True,
         through_fields=("team", "member"),
@@ -36,7 +36,7 @@ class Team(models.Model):
 class TeamMember(models.Model):
     team = models.ForeignKey(Team, related_name="+", on_delete=models.CASCADE)
     member = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="teams", on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, related_name="+", on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(
         verbose_name="дата та час створення", auto_now_add=True

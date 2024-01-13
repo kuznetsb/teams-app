@@ -13,6 +13,7 @@ from .permissions import IsUpdateMyself
 
 from .serializers.general import UserSerializer, AuthTokenSerializer
 from .serializers.input import UserInputSerializer
+from .serializers.read import UserDetailSerializer
 
 
 class CurrentUserView(generics.RetrieveAPIView):
@@ -60,18 +61,23 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserInputSerializer
 
 
-class UserMixin:
+class UserListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
+    filterset_class = UserFilterSet
     queryset = get_user_model().objects.all().order_by("id")
 
 
-class UserListView(UserMixin, generics.ListAPIView):
-    filterset_class = UserFilterSet
+class UserDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserDetailSerializer
 
-
-class UserDetailView(UserMixin, generics.RetrieveAPIView):
-    pass
+    def get_queryset(self):
+        return (
+            get_user_model()
+            .objects.prefetch_related("teams__created_by")
+            .order_by("id")
+        )
 
 
 class UserDeleteView(generics.DestroyAPIView):

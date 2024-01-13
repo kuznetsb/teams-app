@@ -9,5 +9,5 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ["name", "created_by", "created_at", "updated_at"]
-        read_only_fields = ["created_by", "created_at", "updated_at"]
+        fields = ["id", "name", "created_by", "created_at", "updated_at"]
+        read_only_fields = ["id", "created_by", "created_at", "updated_at"]
