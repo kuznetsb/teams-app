@@ -164,3 +164,23 @@ MEDIA_ROOT = env("MEDIA_ROOT", default=None) or BASE_DIR / "media/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGGING = {
+    "disable_existing_loggers": False,
+    "version": 1,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+        },
+    },
+    "root": {
+        "level": "DEBUG",
+        "handlers": ["console"],
+    },
+    "core.handlers": {"level": "DEBUG", "handlers": ["console"]},
+}

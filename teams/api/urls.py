@@ -17,4 +17,15 @@ urlpatterns = [
         views.TeamViewSet.as_view({"delete": "destroy"}),
         name="team-delete",
     ),
+    path("<int:pk>/detail/", views.TeamDetailView.as_view(), name="team-detail"),
+    path(
+        "<int:pk>/members-add/",
+        views.TeamMembersAddView.as_view(),
+        name="team-members-add",
+    ),
+    path(
+        "<int:pk>/members-remove/",
+        views.TeamMembersRemoveView.as_view(),
+        name="team-members-remove",
+    ),
 ]

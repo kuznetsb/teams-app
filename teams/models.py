@@ -16,6 +16,13 @@ class Team(models.Model):
         related_name="created_teams",
         on_delete=models.CASCADE,
     )
+    members = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="+",
+        through="TeamMember",
+        blank=True,
+        through_fields=("team", "member"),
+    )
 
     def __str__(self):
         return self.name
@@ -27,7 +34,7 @@ class Team(models.Model):
 
 
 class TeamMember(models.Model):
-    team = models.ForeignKey(Team, related_name="members", on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, related_name="+", on_delete=models.CASCADE)
     member = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="teams", on_delete=models.CASCADE
     )
