@@ -4,12 +4,12 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework import generics, status, views, filters
+from rest_framework import generics, status, views
 from rest_framework.response import Response
 
 from api.utils import token_login, token_logout
 from .filters import UserFilterSet
-from .permissions import user_access_permission
+from .permissions import IsUpdateMyself
 
 from .serializers.general import UserSerializer, AuthTokenSerializer
 from .serializers.input import UserInputSerializer
@@ -80,6 +80,6 @@ class UserDeleteView(generics.DestroyAPIView):
 
 
 class UserUpdateView(generics.UpdateAPIView):
-    permission_classes = [user_access_permission("can_update")]
+    permission_classes = [IsUpdateMyself]
     serializer_class = UserInputSerializer
     queryset = get_user_model().objects.all()

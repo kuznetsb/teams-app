@@ -1,32 +1,16 @@
-from typing import Type
-
-from django.conf import settings
-from rest_framework.permissions import BasePermission
-
-from api.permissions import ObjectAccessPolicyPermission
-from teams_app.services.access_policy import ObjectAccessPolicy
+from rest_framework import permissions
 
 
-class UserAccessPolicy(ObjectAccessPolicy):
-    obj: settings.AUTH_USER_MODEL
-
-    def __init__(self, user: settings.AUTH_USER_MODEL, obj: settings.AUTH_USER_MODEL):
-        super().__init__(user, obj)
-
-    @property
-    def can_update(self) -> bool:
-        """
-        If user can update the user page.
-        """
-        return self.user == self.obj
-
-
-def user_access_permission(property_name: str) -> Type[BasePermission]:
+class IsUpdateMyself(permissions.BasePermission):
     """
-    Create new permission class, which delegates object permission check to property from UserAccessPolicy.
+    Custom permission to only allow update user himself page
     """
-    permission_class = ObjectAccessPolicyPermission.create_subclass(
-        access_policy_class=UserAccessPolicy,
-        property_name=property_name,
-    )
-    return permission_class
+
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # Write permissions are only allowed to the owner of the snippet.
+        return obj == request.user
