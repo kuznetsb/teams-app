@@ -54,3 +54,8 @@ class User(AbstractUser):
         if self.pk is None:
             self.username = self.email.split("@")[0]
         super().save(*args, **kwargs)
+
+    class Meta:
+        db_table = "users"
+        verbose_name = "Користувач"
+        verbose_name_plural = "Користувачі"

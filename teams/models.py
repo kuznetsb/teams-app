@@ -20,6 +20,11 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        db_table = "teams"
+        verbose_name = "Команда"
+        verbose_name_plural = "Команди"
+
 
 class TeamMember(models.Model):
     team = models.ForeignKey(Team, related_name="members", on_delete=models.CASCADE)
@@ -39,3 +44,7 @@ class TeamMember(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
+
+    class Meta:
+        db_table = "teams_members"
+        unique_together = ["team", "member"]
