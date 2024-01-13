@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from drf_spectacular.views import SpectacularSwaggerView
 
-# Create your views here.
+
+class TeamsSpectacularSwaggerView(SpectacularSwaggerView):
+    url_name: str = "api:schema"
