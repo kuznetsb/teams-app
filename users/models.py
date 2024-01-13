@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_("email address"), unique=True)
+    email = models.EmailField("електронна пошта", unique=True)
     first_name = models.CharField("ім'я", max_length=50)
     last_name = models.CharField("прізвище", max_length=50)
 
