@@ -1,0 +1,12 @@
+# python cache
+__pycache__/
+*.pyc
+*.pid
+
+# local media files
+app/src/static/
+app/src/media/
+app/data_migration/
+app/src/sm/settings/local.py
+app/src/.env
+venv/
